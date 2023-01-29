@@ -57,7 +57,7 @@ app.post('/interactions', async function (req, res) {
     }
     if (type === InteractionType.APPLICATION_COMMAND) {
         if (data.name === 'chat') {
-            console.log(data)
+            console.log(req.body)
             let text
             try {
                 const response = await queryAI("How are you?")
