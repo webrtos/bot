@@ -2,6 +2,17 @@ import express from 'express'
 import fetch from 'node-fetch'
 import { verifyKey } from 'discord-interactions'
 
+const appId = process.env.APP_ID
+const guildId = process.env.GUILD_ID
+
+const commands = [
+    {
+        name: 'chat',
+        description: 'text-davinci-003',
+        type: 1
+    }
+]
+
 function VerifyDiscordRequest(clientKey) {
     return function (req, res, buf, encoding) {
       const signature = req.get('X-Signature-Ed25519');
@@ -29,13 +40,11 @@ async function DiscordRequest(endpoint, options) {
       },
       ...options
     });
-    // throw API errors
     if (!res.ok) {
       const data = await res.json();
       console.log(res.status);
       throw new Error(JSON.stringify(data));
     }
-    // return original response
     return res;
 }
 
@@ -43,15 +52,9 @@ const app = express();
 app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 app.post('/interactions', function (req, res) {
-  // Interaction type and data
   const { type, data } = req.body;
-  /**
-   * Handle slash command requests
-   */
   if (type === InteractionType.APPLICATION_COMMAND) {
-    // Slash command with name of "test"
-    if (data.name === 'test') {
-      // Send a message as response
+    if (data.name === 'chat') {
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: { content: 'A wild message appeared' },
@@ -60,24 +63,47 @@ app.post('/interactions', function (req, res) {
   }
 });
 
+
+async function HasGuildCommand(command) {
+    const endpoint = `applications/${appId}/guilds/${guildId}/commands`;
+    try {
+      const res = await DiscordRequest(endpoint, { method: 'GET' });
+      const data = await res.json();
+      if (data) {
+        const installedNames = data.map((c) => c['name']);
+        // This is just matching on the name, so it's not good for updates
+        if (!installedNames.includes(command['name'])) {
+          console.log(`Installing "${command['name']}"`);
+          InstallGuildCommand(command);
+        } else {
+          console.log(`"${command['name']}" command already installed`);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+}
+
+async function InstallGuildCommand(command) {
+    const endpoint = `applications/${appId}/guilds/${guildId}/commands`;
+    try {
+      await DiscordRequest(endpoint, { method: 'POST', body: command });
+    } catch (err) {
+      console.error(err);
+    }
+}
+
+/*
 async function createCommand() {
-  const appId = process.env.APP_ID;
-  const guildId = process.env.GUILD_ID;
 
-  /**
-   * Globally-scoped slash commands (generally only recommended for production)
-   * See https://discord.com/developers/docs/interactions/application-commands#create-global-application-command
-   */
+  //https://discord.com/developers/docs/interactions/application-commands#create-global-application-command
   // const globalEndpoint = `applications/${appId}/commands`;
+  //https://discord.com/developers/docs/interactions/application-commands#create-guild-application-command
 
-  /**
-   * Guild-scoped slash commands
-   * See https://discord.com/developers/docs/interactions/application-commands#create-guild-application-command
-   */
   const guildEndpoint = `applications/${appId}/guilds/${guildId}/commands`;
   const commandBody = {
-    name: 'test',
-    description: 'Just your average command',
+    name: 'chat',
+    description: 'text-davinci-003',
     // chat command (see https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-types)
     type: 1,
   };
@@ -93,10 +119,11 @@ async function createCommand() {
     console.error('Error installing commands: ', err);
   }
 }
+*/
 
 //export default function () {
     app.listen(process.env.PORT || 3000, function () {
         console.log('Listening on', this.address());
-        createCommand();
+        commands.forEach(HasGuildCommand);
     });
 //}
