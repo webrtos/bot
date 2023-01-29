@@ -71,7 +71,7 @@ app.post('/interactions', async function (req, res) {
                 const response = await queryAI(data.options[0].value);
                 if (response && 'data' in response && 'choices' in response.data && Array.isArray(response.data.choices) && response.data.choices.length > 0) {
                     for (let i = 0, l = response.data.choices.length; i < l; i++) {
-                        text += i + ". " + response.data.choices[i].text + " "
+                        if (response.data.choices[i] && 'text' in response.data.choices[i]) { text += i + ". " + response.data.choices[i].text + " " }
                     }
                 } else {
                     text = "Not valid"
