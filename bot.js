@@ -13,6 +13,19 @@ const commands = [
         name: 'chat',
         description: 'text-davinci-003',
         type: 1
+    },
+    {
+        name: 'davinci',
+        description: 'chat-reply',
+        type: 1,
+        options: [
+            {
+                "name": "query",
+                "description": "message",
+                "type": 3,
+                "required": true
+            }
+        ]
     }
 ]
 
@@ -56,7 +69,7 @@ app.post('/interactions', async function (req, res) {
         return res.send({ type: InteractionResponseType.PONG })
     }
     if (type === InteractionType.APPLICATION_COMMAND) {
-        if (data.name === 'chat') {
+        if (data.name === 'davinci') {
             console.log(req.body)
             let text
             try {
