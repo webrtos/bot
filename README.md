@@ -19,19 +19,18 @@
    ![image](https://user-images.githubusercontent.com/89479282/205949161-4b508c6d-19a7-49b6-b8ed-7525ddbef430.png)
 
 4. Store the token to render project Environment Variables as `DISCORD_TOKEN`
-   
 5. Turn MESSAGE CONTENT INTENT `ON`
 
    ![image](https://user-images.githubusercontent.com/89479282/205949323-4354bd7d-9bb9-4f4b-a87e-deb9933a89b5.png)
-   
-6. Invite your bot to your server via OAuth2 URL Generator
+
+6. Edit `INTERACTIONS ENDPOINT URL` on Bot section with `{RENDER_HOSTING_URL}/interactions`
+7. Invite your bot to your server via OAuth2 URL Generator
 
    ![image](https://user-images.githubusercontent.com/89479282/205949600-0c7ddb40-7e82-47a0-b59a-b089f929d177.png)
 
 ## Step 3: Geanerate a OpenAI API key
 
 1. Go to https://beta.openai.com/account/api-keys
-
 2. Click Create new secret key
 
    ![image](https://user-images.githubusercontent.com/89479282/207970699-2e0cb671-8636-4e27-b1f3-b75d6db9b57e.PNG)
