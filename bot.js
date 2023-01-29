@@ -94,10 +94,10 @@ async function createCommand() {
   }
 }
 
-export default function () {
+//export default function () {
     app.listen(80, () => {
     console.log('Listening on port 80');
 
     createCommand();
     });
-}
+//}
