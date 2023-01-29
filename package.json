@@ -4,7 +4,7 @@
   "main": "bot.js",
   "type": "module",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node api/handler.js"
   },
   "devDependencies": {
     "discord-interactions": "^3.3.0",

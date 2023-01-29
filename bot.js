@@ -94,8 +94,10 @@ async function createCommand() {
   }
 }
 
-app.listen(80, () => {
-  console.log('Listening on port 80');
+export default function () {
+    app.listen(80, () => {
+    console.log('Listening on port 80');
 
-  createCommand();
-});
+    createCommand();
+    });
+}
