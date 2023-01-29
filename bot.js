@@ -66,16 +66,23 @@ app.post('/interactions', async function (req, res) {
     if (type === InteractionType.APPLICATION_COMMAND) {
         if (data.name === 'gpt') {
             //data.options.forEach(function (element, index) { console.log(index, ":", element) })
-            let text
+            let text = ""
             try {
                 const response = await queryAI(data.options[0].value);
-                text = response.data.choices[0].text
+                if (response && 'data' in response && 'choices' in response.data && Array.isArray(response.data.choices) && response.data.choices.length > 0) {
+                    for (let i = 0, l = response.data.choices.length; i < l; i++) {
+                        text += i + ". " + response.data.choices[i].text + " "
+                    }
+                } else {
+                    text = "Not valid"
+                }
+                //text = response.data.choices[0].text
             } catch (e) {
                 text = e.message
             }
             return res.send({
                 type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-                data: { content: text }
+                data: { content: "Q: " + data.options[0].value + " A: " + text }
             });
         }
     }
@@ -116,7 +123,7 @@ async function queryAI(message) {
         model: "text-davinci-003",
         prompt: `The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\nHuman: ${message}\nAI:`,
         temperature: 0.9,
-        max_tokens: 150,
+        max_tokens: 200, //150,
         top_p: 1,
         frequency_penalty: 0.0,
         presence_penalty: 0.6,
