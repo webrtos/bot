@@ -70,13 +70,13 @@ app.post('/interactions', async function (req, res) {
             try {
                 const response = await queryAI(data.options[0].value);
                 if (response && 'data' in response && 'choices' in response.data && Array.isArray(response.data.choices) && response.data.choices.length > 0) {
-                    for (let i = 0, l = response.data.choices.length; i < l; i++) {
+                    /*for (let i = 0, l = response.data.choices.length; i < l; i++) {
                         if (response.data.choices[i] && 'text' in response.data.choices[i]) { text += "\nA" + (i + 1) + ": " + response.data.choices[i].text }
-                    }
+                    }*/
+                    text = "\nA: " + response.data.choices[0].text
                 } else {
                     text = "\nA: error"
                 }
-                //text = response.data.choices[0].text
             } catch (e) {
                 text = "\nA: error " + e.message
             }
