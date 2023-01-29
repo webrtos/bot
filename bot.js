@@ -10,20 +10,15 @@ const guildId = process.env.GUILD_ID
 
 const commands = [
     {
-        name: 'chat',
-        description: 'text-davinci-003',
-        type: 1
-    },
-    {
         name: 'davinci',
-        description: 'chat-reply',
+        description: 'text-davinci-003',
         type: 1,
         options: [
             {
-                "name": "query",
-                "description": "message",
-                "type": 3,
-                "required": true
+                name: 'message',
+                description: 'ask politely OpenAI for a reply',
+                type: 3,
+                required: true
             }
         ]
     }
@@ -70,10 +65,10 @@ app.post('/interactions', async function (req, res) {
     }
     if (type === InteractionType.APPLICATION_COMMAND) {
         if (data.name === 'davinci') {
-            data.options.forEach(function (element, index) { console.log(index, ":", element) })
+            //data.options.forEach(function (element, index) { console.log(index, ":", element) })
             let text
             try {
-                const response = await queryAI("How are you?")
+                const response = await queryAI(data.options[0].value);
                 text = response.data.choices[0].text
             } catch (e) {
                 text = e.message
