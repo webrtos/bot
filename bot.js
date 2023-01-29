@@ -64,7 +64,7 @@ app.post('/interactions', async function (req, res) {
         return res.send({ type: InteractionResponseType.PONG })
     }
     if (type === InteractionType.APPLICATION_COMMAND) {
-        if (data.name === 'davinci') {
+        if (data.name === 'gpt') {
             //data.options.forEach(function (element, index) { console.log(index, ":", element) })
             let text
             try {
