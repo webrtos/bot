@@ -1,6 +1,6 @@
 import express from 'express'
 import fetch from 'node-fetch'
-import { verifyKey } from 'discord-interactions'
+import { InteractionType, InteractionResponseType, verifyKey } from 'discord-interactions'
 
 const appId = process.env.APP_ID
 const guildId = process.env.GUILD_ID
@@ -53,6 +53,9 @@ app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 app.post('/interactions', function (req, res) {
   const { type, data } = req.body;
+  if (type === InteractionType.PING) {
+    return res.send({ type: InteractionResponseType.PONG });
+  }
   if (type === InteractionType.APPLICATION_COMMAND) {
     if (data.name === 'chat') {
       return res.send({
