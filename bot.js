@@ -57,16 +57,16 @@ app.post('/interactions', async function (req, res) {
     }
     if (type === InteractionType.APPLICATION_COMMAND) {
         if (data.name === 'chat') {
-            let res
+            let text
             try {
                 const response = await queryAI("How are you?")
-                res = response.data.choices[0].text
+                text = response.data.choices[0].text
             } catch (e) {
-                res = e.message
+                text = e.message
             }
             return res.send({
                 type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-                data: { content: res }
+                data: { content: text }
             });
         }
     }
