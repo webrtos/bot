@@ -71,18 +71,18 @@ app.post('/interactions', async function (req, res) {
                 const response = await queryAI(data.options[0].value);
                 if (response && 'data' in response && 'choices' in response.data && Array.isArray(response.data.choices) && response.data.choices.length > 0) {
                     for (let i = 0, l = response.data.choices.length; i < l; i++) {
-                        if (response.data.choices[i] && 'text' in response.data.choices[i]) { text += "A" + (i + 1) + ". " + response.data.choices[i].text + " " }
+                        if (response.data.choices[i] && 'text' in response.data.choices[i]) { text += "\nA" + (i + 1) + ": " + response.data.choices[i].text }
                     }
                 } else {
-                    text = "Not valid"
+                    text = "\nA: error"
                 }
                 //text = response.data.choices[0].text
             } catch (e) {
-                text = e.message
+                text = "\nA: error " + e.message
             }
             return res.send({
                 type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-                data: { content: "Q: " + data.options[0].value + " " + text }
+                data: { content: "Q: " + data.options[0].value + text }
             });
         }
     }
