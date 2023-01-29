@@ -70,7 +70,7 @@ app.post('/interactions', async function (req, res) {
     }
     if (type === InteractionType.APPLICATION_COMMAND) {
         if (data.name === 'davinci') {
-            console.log(req.body)
+            data.options.forEach(function (element, index) { console.log(index, ":", element) })
             let text
             try {
                 const response = await queryAI("How are you?")
