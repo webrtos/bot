@@ -51,16 +51,22 @@ const app = express();
 app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 app.post('/interactions', async function (req, res) {
-    const { type, data } = req.body;
+    const { type, data } = req.body
     if (type === InteractionType.PING) {
-        return res.send({ type: InteractionResponseType.PONG });
+        return res.send({ type: InteractionResponseType.PONG })
     }
     if (type === InteractionType.APPLICATION_COMMAND) {
         if (data.name === 'chat') {
-            const response = await queryAI("How are you?");
+            let res
+            try {
+                const response = await queryAI("How are you?")
+                res = response.data.choices[0].text
+            } catch (e) {
+                res = e.message
+            }
             return res.send({
                 type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-                data: { content: response.data.choices[0].text }
+                data: { content: res }
             });
         }
     }
