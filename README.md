@@ -1,7 +1,7 @@
 ## Step 1: Create render account
 
 1. Go to https://render.com and create a free account.
-2. Setup an WebService using this repository https://github.com/webrtos/bot.git with:
+2. Setup the WebService using this repository https://github.com/webrtos/bot.git with:
 
     - Build Command: `npm i`
     - Start Command: `npm start`
