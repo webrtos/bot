@@ -10,7 +10,7 @@ const guildId = process.env.GUILD_ID
 
 const commands = [
     {
-        name: 'davinci',
+        name: 'gpt',
         description: 'text-davinci-003',
         type: 1,
         options: [
