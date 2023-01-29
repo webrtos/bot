@@ -10,7 +10,7 @@
 
     ![image](https://user-images.githubusercontent.com/80090970/215332430-79a4264c-be07-4f0e-a2ea-5b05debee9d2.png)
 
-## Step 1: Create a Discord bot
+## Step 2: Create a Discord bot
 
 1. Go to https://discord.com/developers/applications create an application
 2. Build a Discord bot under the application
@@ -28,7 +28,7 @@
 
    ![image](https://user-images.githubusercontent.com/89479282/205949600-0c7ddb40-7e82-47a0-b59a-b089f929d177.png)
 
-## Step 2: Geanerate a OpenAI API key
+## Step 3: Geanerate a OpenAI API key
 
 1. Go to https://beta.openai.com/account/api-keys
 
@@ -36,4 +36,4 @@
 
    ![image](https://user-images.githubusercontent.com/89479282/207970699-2e0cb671-8636-4e27-b1f3-b75d6db9b57e.PNG)
 
-2. Store the SECRET KEY to render project Environment Variables as `OPENAI_API_KEY`
+3. Store the SECRET KEY to render project Environment Variables as `OPENAI_API_KEY`
