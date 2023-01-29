@@ -95,9 +95,8 @@ async function createCommand() {
 }
 
 //export default function () {
-    app.listen(process.env.PORT || 3000, () => {
-    console.log('Listening on port 80');
-
-    createCommand();
+    app.listen(process.env.PORT || 3000, function () {
+        console.log('Listening on', this.address());
+        createCommand();
     });
 //}
